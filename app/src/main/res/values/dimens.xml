@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="doc_title_li_text_size">35sp</dimen>
+    <dimen name="doc_author_li_text_size">25sp</dimen>
+    <dimen name="doc_li_padding">15dp</dimen>
+    <dimen name="description_text_size">40sp</dimen>
+    <dimen name="details_padding">20sp</dimen>
+</resources>

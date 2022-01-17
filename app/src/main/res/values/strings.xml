@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">opendocumentlibrary</string>
+    <string name="app_name">Open Library</string>
+    <string name="description_initial_value">Enter the data you want to search for</string>
+    <string name="enter_data">Enter Data</string>
 </resources>
