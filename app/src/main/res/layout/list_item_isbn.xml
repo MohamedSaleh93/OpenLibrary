@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/isbnCover"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         tools:background="@drawable/ic_launcher_background"

@@ -4,9 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mohamed.opendocumentlibrary.R
 import com.mohamed.opendocumentlibrary.model.Document
+import com.mohamed.opendocumentlibrary.ui.adapter.ISBNAdapter
 import com.mohamed.opendocumentlibrary.utils.Constants
 
 class DetailsActivity: AppCompatActivity() {
@@ -14,6 +17,7 @@ class DetailsActivity: AppCompatActivity() {
 	private lateinit var detailsTitle: TextView
 	private lateinit var detailsAuthor: TextView
 	private lateinit var isbnRV: RecyclerView
+	private lateinit var isbnAdapter: ISBNAdapter
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -44,7 +48,11 @@ class DetailsActivity: AppCompatActivity() {
 		with(document) {
 			detailsTitle.text = title
 			detailsAuthor.text = author
+			isbnAdapter = ISBNAdapter(isbn)
 		}
+		isbnRV.layoutManager = LinearLayoutManager(this)
+		isbnRV.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+		isbnRV.adapter = isbnAdapter
 	}
 
 	private fun startMainScreenWithData(data: String) {
