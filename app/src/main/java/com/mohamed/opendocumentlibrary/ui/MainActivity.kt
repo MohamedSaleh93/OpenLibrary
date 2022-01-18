@@ -6,11 +6,19 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mohamed.opendocumentlibrary.R
+import com.mohamed.opendocumentlibrary.di.DependenciesCreator
+import com.mohamed.opendocumentlibrary.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
+
+	private lateinit var mainViewModel: MainViewModel
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
+		mainViewModel = DependenciesCreator.provideMainViewModel(this)
+
+		
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {

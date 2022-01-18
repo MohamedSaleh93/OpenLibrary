@@ -1,8 +1,8 @@
 package com.mohamed.opendocumentlibrary.repository
 
-import com.mohamed.opendocumentlibrary.model.Document
+import com.mohamed.opendocumentlibrary.model.RequestDocumentResult
 
 interface IDocumentsListRepository {
 
-	fun requestDocuments(searchQuery: String): List<Document>
+	fun requestDocuments(searchQuery: String): RequestDocumentResult
 }
