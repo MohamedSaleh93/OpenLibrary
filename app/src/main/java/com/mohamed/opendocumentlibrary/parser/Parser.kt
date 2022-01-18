@@ -14,14 +14,16 @@ class Parser: IParser {
 			val documentList = ArrayList<Document>()
 			for (i in 0 until docsArray.length()) {
 				val json = docsArray.getJSONObject(i)
-				val title = json.getString("title")
-				val author = json.getString("author_name")
+				val title = json.optString("title")
+				val author = json.optJSONArray("author_name")
 				val isbnList = ArrayList<String>()
-				val isbnJsonArray = json.getJSONArray("isbn")
-				for (j in 0 until isbnJsonArray.length()) {
-					isbnList.add(isbnJsonArray.getString(i))
+				val isbnJsonArray = json.optJSONArray("isbn")
+				if (isbnJsonArray != null) {
+					for (j in 0 until isbnJsonArray.length()) {
+						isbnList.add(isbnJsonArray.getString(j))
+					}
 				}
-				documentList.add(Document(title, isbnList, author))
+				documentList.add(Document(title, isbnList, author?.getString(0) ?: ""))
 			}
 			return RequestDocumentResult(documentsList = documentList)
 		} catch (e: JSONException) {
