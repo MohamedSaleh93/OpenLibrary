@@ -1,10 +1,11 @@
-package com.mohamed.opendocumentlibrary
+package com.mohamed.opendocumentlibrary.ui
 
 import android.os.Bundle
 import android.view.Menu
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.mohamed.opendocumentlibrary.R
 
 class MainActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
