@@ -16,6 +16,7 @@ import com.mohamed.opendocumentlibrary.R
 import com.mohamed.opendocumentlibrary.di.DependenciesCreator
 import com.mohamed.opendocumentlibrary.model.Document
 import com.mohamed.opendocumentlibrary.ui.adapter.DocumentsAdapter
+import com.mohamed.opendocumentlibrary.utils.Constants
 import com.mohamed.opendocumentlibrary.viewmodel.MainViewModel
 import com.mohamed.opendocumentlibrary.viewstate.DocumentsDataListResult
 import com.mohamed.opendocumentlibrary.viewstate.DocumentsListViewState
@@ -29,10 +30,12 @@ class MainActivity : AppCompatActivity() {
 	private lateinit var descriptionText: TextView
 	private lateinit var recyclerView: RecyclerView
 	private lateinit var documentsAdapter: DocumentsAdapter
+	private var searchDataFromDetails = ""
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
+		searchDataFromDetails = intent.getStringExtra(Constants.MAIN_SCREEN_DATA) ?: ""
 		buildTheUiComponents()
 		mainViewModel = DependenciesCreator.provideMainViewModel(this)
 
@@ -43,6 +46,9 @@ class MainActivity : AppCompatActivity() {
 				is DocumentsDataListResult -> showDocumentsListAndHideThRest(it.documents)
 			}
 		})
+		if (searchDataFromDetails.isNotEmpty()) {
+			mainViewModel.getDocumentList(searchDataFromDetails)
+		}
 	}
 
 	private fun buildTheUiComponents() {
@@ -52,23 +58,27 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
-		menuInflater.inflate(R.menu.options_menu, menu)
-		val search = menu.findItem(R.id.search)
-		val searchView = search.actionView as SearchView
-		searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-			override fun onQueryTextSubmit(p0: String?): Boolean {
-				p0?.let {
-					mainViewModel.getDocumentList(it)
+		if (searchDataFromDetails.isEmpty()) {
+			menuInflater.inflate(R.menu.options_menu, menu)
+			val search = menu.findItem(R.id.search)
+			val searchView = search.actionView as SearchView
+			searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+				override fun onQueryTextSubmit(p0: String?): Boolean {
+					p0?.let {
+						mainViewModel.getDocumentList(it)
+					}
+					return false
 				}
-				return false
-			}
 
-			override fun onQueryTextChange(p0: String?): Boolean {
-				return false
-			}
+				override fun onQueryTextChange(p0: String?): Boolean {
+					return false
+				}
 
-		})
-		return true
+			})
+			return true
+		} else {
+			return false
+		}
 	}
 
 	private fun showLoadingScreenAndHideTheRest() {

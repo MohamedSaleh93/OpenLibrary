@@ -1,5 +1,6 @@
 package com.mohamed.opendocumentlibrary.ui.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mohamed.opendocumentlibrary.R
 import com.mohamed.opendocumentlibrary.model.Document
+import com.mohamed.opendocumentlibrary.ui.DetailsActivity
+import com.mohamed.opendocumentlibrary.utils.Constants
 
 class DocumentsAdapter(private val documentsList: List<Document>): RecyclerView.Adapter<DocumentsAdapter.DocumentsViewHolder>() {
 
@@ -30,6 +33,12 @@ class DocumentsAdapter(private val documentsList: List<Document>): RecyclerView.
 
 			title.text = document.title
 			author.text = document.author
+
+			itemView.setOnClickListener {
+				val intent = Intent(itemView.context, DetailsActivity::class.java)
+				intent.putExtra(Constants.DETAILS_SCREEN_DATA, document)
+				itemView.context.startActivity(intent)
+			}
 		}
 	}
 }
