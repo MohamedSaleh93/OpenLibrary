@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mohamed.opendocumentlibrary.R
 import com.mohamed.opendocumentlibrary.databinding.ListItemIsbnBinding
 import java.net.URL
@@ -32,30 +33,14 @@ class ISBNAdapter(
 
 	class ISBNViewHolder(private val binding: ListItemIsbnBinding): RecyclerView.ViewHolder(binding.root) {
 		fun bind(isbn: String) {
+			val imageURL = "https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg?default=false"
 
 			binding.isbnTV.text = isbn
 
-			val executor = Executors.newSingleThreadExecutor()
-
-			val handler = Handler(Looper.getMainLooper())
-
-			var image: Bitmap
-
-			executor.execute {
-				val imageURL = "https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg?default=false"
-				try {
-					val `in` = URL(imageURL).openStream()
-					image = BitmapFactory.decodeStream(`in`)
-
-					handler.post {
-						binding.isbnCover.setImageBitmap(image)
-					}
-				} catch (e: Exception) {
-					handler.post {
-						binding.isbnCover.setImageDrawable(ContextCompat.getDrawable(itemView.context, R.drawable.ic_broken_image))
-					}
-				}
-			}
+			Glide.with(binding.root)
+				.load(imageURL)
+				.placeholder(R.drawable.ic_placeholder)
+				.into(binding.isbnCover)
 		}
 	}
 

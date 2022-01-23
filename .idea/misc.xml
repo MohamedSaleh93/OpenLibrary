@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_broken_image.xml" value="0.33958333333333335" />
         <entry key="app/src/main/res/layout/activity_details.xml" value="0.15628166160081053" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11956521739130435" />
         <entry key="app/src/main/res/layout/list_item_document.xml" value="0.22" />
