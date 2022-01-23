@@ -5,13 +5,11 @@ import android.graphics.BitmapFactory
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mohamed.opendocumentlibrary.R
+import com.mohamed.opendocumentlibrary.databinding.ListItemIsbnBinding
 import java.net.URL
 import java.util.concurrent.Executors
 
@@ -20,8 +18,8 @@ class ISBNAdapter(
 	): RecyclerView.Adapter<ISBNAdapter.ISBNViewHolder>() {
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ISBNViewHolder {
-		return ISBNViewHolder(LayoutInflater.from(parent.context)
-			.inflate(R.layout.list_item_isbn, parent, false))
+		val binding = ListItemIsbnBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+		return ISBNViewHolder(binding)
 	}
 
 	override fun onBindViewHolder(holder: ISBNViewHolder, position: Int) {
@@ -32,12 +30,10 @@ class ISBNAdapter(
 		return isbnList.size
 	}
 
-	class ISBNViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
+	class ISBNViewHolder(private val binding: ListItemIsbnBinding): RecyclerView.ViewHolder(binding.root) {
 		fun bind(isbn: String) {
-			val isbnTV = itemView.findViewById<TextView>(R.id.isbnTV)
-			val coverImage = itemView.findViewById<ImageView>(R.id.isbnCover)
 
-			isbnTV.text = isbn
+			binding.isbnTV.text = isbn
 
 			val executor = Executors.newSingleThreadExecutor()
 
@@ -52,11 +48,11 @@ class ISBNAdapter(
 					image = BitmapFactory.decodeStream(`in`)
 
 					handler.post {
-						coverImage.setImageBitmap(image)
+						binding.isbnCover.setImageBitmap(image)
 					}
 				} catch (e: Exception) {
 					handler.post {
-						coverImage.setImageDrawable(ContextCompat.getDrawable(itemView.context, R.drawable.ic_broken_image))
+						binding.isbnCover.setImageDrawable(ContextCompat.getDrawable(itemView.context, R.drawable.ic_broken_image))
 					}
 				}
 			}
