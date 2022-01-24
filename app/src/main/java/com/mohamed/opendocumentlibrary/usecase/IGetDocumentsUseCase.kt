@@ -1,6 +1,8 @@
 package com.mohamed.opendocumentlibrary.usecase
 
+import com.mohamed.opendocumentlibrary.model.RequestDocumentResult
+
 interface IGetDocumentsUseCase {
 
-	fun getDocumentsResultFromQuery(searchQuery: String, execute: Execute): Thread
+	suspend fun getDocumentsResultFromQuery(searchQuery: String): RequestDocumentResult
 }

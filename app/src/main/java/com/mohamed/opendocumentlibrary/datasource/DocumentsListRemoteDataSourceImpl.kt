@@ -1,22 +1,14 @@
 package com.mohamed.opendocumentlibrary.datasource
 
-import com.mohamed.opendocumentlibrary.model.RequestDocumentResult
+import com.mohamed.opendocumentlibrary.model.CallResult
 import com.mohamed.opendocumentlibrary.network.DocumentsApiService
+import retrofit2.Response
 
 class DocumentsListRemoteDataSourceImpl(
 	private val documentsApiService: DocumentsApiService
 	): IDocumentsListDataSource {
 
-	override fun requestDocuments(searchQuery: String): RequestDocumentResult {
-		return try {
-			val call = documentsApiService.getDocumentsList(searchQuery).execute()
-			if (call.isSuccessful) {
-				RequestDocumentResult(documentsList = call.body()?.docs)
-			} else {
-				RequestDocumentResult(exception = Exception(call.errorBody()?.string()))
-			}
-		} catch (e: java.lang.Exception) {
-			RequestDocumentResult(exception = e)
-		}
+	override suspend fun requestDocuments(searchQuery: String): Response<CallResult> {
+		return documentsApiService.getDocumentsList(searchQuery)
 	}
 }

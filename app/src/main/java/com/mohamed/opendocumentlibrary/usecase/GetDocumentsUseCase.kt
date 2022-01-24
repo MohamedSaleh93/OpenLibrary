@@ -1,21 +1,24 @@
 package com.mohamed.opendocumentlibrary.usecase
 
+import com.mohamed.opendocumentlibrary.model.RequestDocumentResult
 import com.mohamed.opendocumentlibrary.repository.IDocumentsListRepository
 
 class GetDocumentsUseCase(
 	private val documentsListRepository: IDocumentsListRepository
-	): IGetDocumentsUseCase {
+) : IGetDocumentsUseCase {
 
-	override fun getDocumentsResultFromQuery(searchQuery: String, execute: Execute): Thread {
-		val thread = Thread {
-			val result = documentsListRepository.requestDocuments(searchQuery.replace(" ", "+"))
-			if (result.exception != null) {
-				execute.onError(result.exception)
-			} else  {
-				execute.onSuccess(result.documentsList!!)
+	override suspend fun getDocumentsResultFromQuery(
+		searchQuery: String
+	): RequestDocumentResult {
+		return try {
+			val call = documentsListRepository.requestDocuments(searchQuery.replace(" ", "+"))
+			if (call.isSuccessful) {
+				RequestDocumentResult(documentsList = call.body()?.docs)
+			} else {
+				RequestDocumentResult(exception = Exception(call.errorBody()?.toString()))
 			}
+		} catch (e: java.lang.Exception) {
+			RequestDocumentResult(exception = e)
 		}
-		thread.start()
-		return thread
 	}
 }
