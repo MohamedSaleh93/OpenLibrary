@@ -12,4 +12,10 @@ The code architecture is designed to follow the clean code architecture by creat
 - Presentation layer where we call the data from the use case and render depending on the result we get
 
 ## Libraries:
-- This application doesn't depend on any third library to achieve the required requirements, all the code is a native starting from calling the backend and parsing images form the web to show it
+- Coroutines
+- Retrofit
+- OkHttp
+- Glide
+- Koin
+- Mock
+- Kotlinx Serialization
