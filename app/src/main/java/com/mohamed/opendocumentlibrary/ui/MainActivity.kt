@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mohamed.opendocumentlibrary.R
 import com.mohamed.opendocumentlibrary.databinding.ActivityMainBinding
-import com.mohamed.opendocumentlibrary.di.DependenciesCreator
 import com.mohamed.opendocumentlibrary.model.Document
 import com.mohamed.opendocumentlibrary.ui.adapter.DocumentsAdapter
 import com.mohamed.opendocumentlibrary.utils.Constants
@@ -19,10 +18,11 @@ import com.mohamed.opendocumentlibrary.viewmodel.MainViewModel
 import com.mohamed.opendocumentlibrary.viewstate.DocumentsDataListResult
 import com.mohamed.opendocumentlibrary.viewstate.ErrorState
 import com.mohamed.opendocumentlibrary.viewstate.LoadingState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-	private lateinit var mainViewModel: MainViewModel
+	val mainViewModel: MainViewModel by viewModel()
 	private lateinit var binding: ActivityMainBinding
 	private lateinit var documentsAdapter: DocumentsAdapter
 	private var searchDataFromDetails = ""
@@ -33,8 +33,6 @@ class MainActivity : AppCompatActivity() {
 		val view = binding.root
 		setContentView(view)
 		searchDataFromDetails = intent.getStringExtra(Constants.MAIN_SCREEN_DATA) ?: ""
-
-		mainViewModel = DependenciesCreator.provideMainViewModel(this)
 
 		mainViewModel.documentsListState.observe(this, Observer {
 			when(it) {
