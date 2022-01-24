@@ -1,5 +1,9 @@
 package com.mohamed.opendocumentlibrary.model
 
-import java.lang.Exception
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-data class CallResult(val exception: Exception? = null, val result: String? = null)
+@Serializable
+data class CallResult(
+	@SerialName("docs")
+	val docs: List<Document>)

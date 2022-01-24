@@ -1,22 +1,22 @@
 package com.mohamed.opendocumentlibrary.datasource
 
-import com.mohamed.opendocumentlibrary.model.Document
 import com.mohamed.opendocumentlibrary.model.RequestDocumentResult
-import com.mohamed.opendocumentlibrary.network.INetworkCall
-import com.mohamed.opendocumentlibrary.parser.IParser
-import com.mohamed.opendocumentlibrary.utils.Constants
+import com.mohamed.opendocumentlibrary.network.DocumentsApiService
 
 class DocumentsListRemoteDataSourceImpl(
-	private val networkCall: INetworkCall,
-	private val parser: IParser
+	private val documentsApiService: DocumentsApiService
 	): IDocumentsListDataSource {
 
 	override fun requestDocuments(searchQuery: String): RequestDocumentResult {
-		val call = networkCall.createGetRequest(Constants.BASE_URL + searchQuery)
-		return if (call.exception == null) {
-			parser.parseJsonStringToDocumentResultResponse(call.result!!)
-		} else {
-			RequestDocumentResult(exception = call.exception)
+		return try {
+			val call = documentsApiService.getDocumentsList(searchQuery).execute()
+			if (call.isSuccessful) {
+				RequestDocumentResult(documentsList = call.body()?.docs)
+			} else {
+				RequestDocumentResult(exception = Exception(call.errorBody()?.string()))
+			}
+		} catch (e: java.lang.Exception) {
+			RequestDocumentResult(exception = e)
 		}
 	}
 }

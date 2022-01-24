@@ -27,7 +27,7 @@ class DocumentsAdapter(private val documentsList: List<Document>): RecyclerView.
 	class DocumentsViewHolder(private val binding: ListItemDocumentBinding): RecyclerView.ViewHolder(binding.root) {
 		fun bindView(document: Document) {
 			binding.docTitle.text = document.title
-			binding.docAuthor.text = document.author
+			binding.docAuthor.text = document.author?.get(0)
 
 			itemView.setOnClickListener {
 				val intent = Intent(itemView.context, DetailsActivity::class.java)

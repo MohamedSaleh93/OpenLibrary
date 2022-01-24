@@ -35,14 +35,16 @@ class DetailsActivity: AppCompatActivity() {
 	}
 
 	private fun bindTheUiComponent(document: Document) {
-		with(document) {
-			binding.detailsTitleTV.text = title
-			binding.detailsAuthorTV.text = author
-			isbnAdapter = ISBNAdapter(isbn)
-		}
 		binding.isbnRV.layoutManager = LinearLayoutManager(this)
 		binding.isbnRV.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-		binding.isbnRV.adapter = isbnAdapter
+		with(document) {
+			binding.detailsTitleTV.text = title
+			binding.detailsAuthorTV.text = author?.get(0)
+			isbn?.let {
+				isbnAdapter = ISBNAdapter(it)
+				binding.isbnRV.adapter = isbnAdapter
+			}
+		}
 	}
 
 	private fun startMainScreenWithData(data: String) {
